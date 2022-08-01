@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:project1/Models/User.dart';
 
 class SignUpState extends StatefulWidget {
   @override
@@ -7,6 +8,9 @@ class SignUpState extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUpState> {
+  var user = User.withoutId();
+  var formKey = GlobalKey<FormState>();
+
   String mesaj = "SIGN UP";
   bool remembermeBtn = false;
   @override
@@ -19,6 +23,7 @@ class _SignUpState extends State<SignUpState> {
       body: AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle.light,
           child: GestureDetector(
+            key: formKey,
             onTap: () => FocusScope.of(context).unfocus(),
             child: Stack(
               children: <Widget>[
@@ -74,7 +79,16 @@ class _SignUpState extends State<SignUpState> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 10.0,
-        onPressed: () => print("SIGNUP BUTTON PRESSED"),
+        onPressed: () {
+          if (formKey.currentState!.validate()) {
+            formKey.currentState!.save();
+            saveUser();
+
+            //Navigator.pop(context);
+          } else {
+            print("object");
+          }
+        },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
@@ -113,8 +127,7 @@ class _SignUpState extends State<SignUpState> {
             color: Colors.white54,
           ),
           height: 50.0,
-          child: TextField(
-            keyboardType: TextInputType.name,
+          child: TextFormField(
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -129,6 +142,16 @@ class _SignUpState extends State<SignUpState> {
                   fontFamily: 'OpenSans',
                   fontWeight: FontWeight.w100),
             ),
+            validator: (value) {
+              return value!.length > 2
+                  ? null
+                  : "Name must be at least 3 characters";
+            },
+            keyboardType: TextInputType.name,
+            onSaved: (value) {
+              user.firstName = value!;
+            },
+            obscureText: true,
           ),
         )
       ],
@@ -154,7 +177,7 @@ class _SignUpState extends State<SignUpState> {
             color: Colors.white54,
           ),
           height: 50.0,
-          child: TextField(
+          child: TextFormField(
             keyboardType: TextInputType.name,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
@@ -170,8 +193,17 @@ class _SignUpState extends State<SignUpState> {
                   fontFamily: 'OpenSans',
                   fontWeight: FontWeight.w100),
             ),
+            validator: (value) {
+              return value!.length > 2
+                  ? null
+                  : "Last Name must be at least 3 characters";
+            },
+            onSaved: (value) {
+              user.firstName = value!;
+            },
+            obscureText: true,
           ),
-        )
+        ),
       ],
     );
   }
@@ -195,7 +227,7 @@ class _SignUpState extends State<SignUpState> {
             color: Colors.white54,
           ),
           height: 50.0,
-          child: TextField(
+          child: TextFormField(
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
@@ -211,6 +243,15 @@ class _SignUpState extends State<SignUpState> {
                   fontFamily: 'OpenSans',
                   fontWeight: FontWeight.w100),
             ),
+            validator: (value) {
+              return value!.contains(
+                      RegExp(r'[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}'))
+                  ? null
+                  : "Invalid E-mail";
+            },
+            onSaved: (value) {
+              user.email = value!.trim();
+            },
           ),
         )
       ],
@@ -236,7 +277,7 @@ class _SignUpState extends State<SignUpState> {
             color: Colors.white54,
           ),
           height: 50.0,
-          child: TextField(
+          child: TextFormField(
             obscureText: true, //****
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
@@ -252,6 +293,16 @@ class _SignUpState extends State<SignUpState> {
                   fontFamily: 'OpenSans',
                   fontWeight: FontWeight.w100),
             ),
+            validator: (value) {
+              return value!.length > 2
+                  ? null
+                  : "Password must be at least 3 characters";
+            },
+            keyboardType: TextInputType.name,
+            onSaved: (value) {
+              print(value);
+              user.password = value!;
+            },
           ),
         )
       ],
@@ -275,5 +326,16 @@ class _SignUpState extends State<SignUpState> {
         stops: [0.1, 0.4, 0.7, 0.9],
       )),
     );
+  }
+
+  void saveUser() {
+    print("deneme");
+    if (user.firstName.isEmpty) {
+      print("dsfmldfl");
+    }
+    print(user.firstName);
+    print(user.lastName);
+    print(user.email);
+    print(user.password);
   }
 }

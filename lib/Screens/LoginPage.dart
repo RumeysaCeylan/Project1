@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:project1/Models/User.dart';
 import 'package:project1/Screens/SignUpPage.dart';
 
 class MyApp extends StatefulWidget {
@@ -10,6 +11,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String mesaj = "LOGIN";
   bool remembermeBtn = false;
+  var formKey = GlobalKey<FormState>();
+
+  User user = User.withoutId();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,6 +24,7 @@ class _MyAppState extends State<MyApp> {
       ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle.light,
+          key: formKey,
           child: GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
             child: Stack(
@@ -102,22 +108,12 @@ class _MyAppState extends State<MyApp> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 10.0,
-        onPressed: () => showDialog(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-                  title: const Text('LOGIN'),
-                  content: const Text('başarılı giriş'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, 'Cancel'),
-                      child: const Text('Cancel'),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, 'OK'),
-                      child: const Text('OK'),
-                    ),
-                  ],
-                )),
+        onPressed: () async {
+          if (formKey.currentState!.validate()) {
+            formKey.currentState!.save();
+            save();
+          }
+        },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
@@ -135,6 +131,17 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
+  }
+
+  void save() {
+    print("deneme");
+    if (user.firstName.isEmpty) {
+      print("dsfmldfl");
+    }
+    print(user.firstName);
+    print(user.lastName);
+    print(user.email);
+    print(user.password);
   }
 
   Widget buildRemembermeBtn() {
@@ -214,7 +221,7 @@ class _MyAppState extends State<MyApp> {
             color: Colors.white54,
           ),
           height: 50.0,
-          child: TextField(
+          child: TextFormField(
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
@@ -230,6 +237,15 @@ class _MyAppState extends State<MyApp> {
                   fontFamily: 'OpenSans',
                   fontWeight: FontWeight.w100),
             ),
+            validator: (value) {
+              return value!.contains(
+                      RegExp(r'[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}'))
+                  ? null
+                  : "Invalid E-mail";
+            },
+            onSaved: (value) {
+              user.email = value!.trim();
+            },
           ),
         )
       ],
@@ -255,7 +271,7 @@ class _MyAppState extends State<MyApp> {
             color: Colors.white54,
           ),
           height: 50.0,
-          child: TextField(
+          child: TextFormField(
             obscureText: true, //****
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
@@ -271,6 +287,14 @@ class _MyAppState extends State<MyApp> {
                   fontFamily: 'OpenSans',
                   fontWeight: FontWeight.w100),
             ),
+            validator: (value) {
+              return value!.length > 5
+                  ? null
+                  : "Password must be at least 6 characters";
+            },
+            onSaved: (value) {
+              user.password = value!.trim();
+            },
           ),
         )
       ],
