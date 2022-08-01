@@ -7,7 +7,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Login UI',
+      title: 'Flutter Login',
       debugShowCheckedModeBanner: false,
       home: MyApp(),
     );
