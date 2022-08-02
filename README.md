@@ -16,6 +16,10 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 
+npm install -g http-server
+
+
+
 ![1](https://user-images.githubusercontent.com/59581456/180210503-ed495864-9e68-4040-97ac-96c7ffcc2533.jpg)
 
 
