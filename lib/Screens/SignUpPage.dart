@@ -80,14 +80,7 @@ class _SignUpState extends State<SignUpState> {
       child: RaisedButton(
         elevation: 10.0,
         onPressed: () {
-          if (formKey.currentState!.validate()) {
-            formKey.currentState!.save();
-            saveUser();
-
-            //Navigator.pop(context);
-          } else {
-            print("object");
-          }
+          saveUser();
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -148,10 +141,9 @@ class _SignUpState extends State<SignUpState> {
                   : "Name must be at least 3 characters";
             },
             keyboardType: TextInputType.name,
-            onSaved: (value) {
-              user.firstName = value!;
+            onChanged: (value) {
+              user.firstName = value;
             },
-            obscureText: true,
           ),
         )
       ],
@@ -198,10 +190,9 @@ class _SignUpState extends State<SignUpState> {
                   ? null
                   : "Last Name must be at least 3 characters";
             },
-            onSaved: (value) {
-              user.firstName = value!;
+            onChanged: (value) {
+              user.lastName = value;
             },
-            obscureText: true,
           ),
         ),
       ],
@@ -249,8 +240,8 @@ class _SignUpState extends State<SignUpState> {
                   ? null
                   : "Invalid E-mail";
             },
-            onSaved: (value) {
-              user.email = value!.trim();
+            onChanged: (value) {
+              user.email = value.trim();
             },
           ),
         )
@@ -299,9 +290,9 @@ class _SignUpState extends State<SignUpState> {
                   : "Password must be at least 3 characters";
             },
             keyboardType: TextInputType.name,
-            onSaved: (value) {
+            onChanged: (value) {
               print(value);
-              user.password = value!;
+              user.password = value;
             },
           ),
         )
@@ -330,9 +321,7 @@ class _SignUpState extends State<SignUpState> {
 
   void saveUser() {
     print("deneme");
-    if (user.firstName.isEmpty) {
-      print("dsfmldfl");
-    }
+
     print(user.firstName);
     print(user.lastName);
     print(user.email);

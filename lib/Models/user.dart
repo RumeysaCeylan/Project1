@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:project1/Models/user.dart';
+import 'package:project1/Models/User.dart';
 
 /*List<User> userModelFromJson(String str) =>
     List<User>.from(json.decode(str).map((x) => userModelFromJson(x)));

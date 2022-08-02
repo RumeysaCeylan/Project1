@@ -109,10 +109,7 @@ class _MyAppState extends State<MyApp> {
       child: RaisedButton(
         elevation: 10.0,
         onPressed: () async {
-          if (formKey.currentState!.validate()) {
-            formKey.currentState!.save();
-            save();
-          }
+          save();
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -158,6 +155,7 @@ class _MyAppState extends State<MyApp> {
                 onChanged: (value) {
                   setState(() {
                     remembermeBtn = value!;
+                    print(value);
                   });
                 },
               )),
@@ -243,8 +241,8 @@ class _MyAppState extends State<MyApp> {
                   ? null
                   : "Invalid E-mail";
             },
-            onSaved: (value) {
-              user.email = value!.trim();
+            onChanged: (value) {
+              user.email = value.trim();
             },
           ),
         )
@@ -292,8 +290,8 @@ class _MyAppState extends State<MyApp> {
                   ? null
                   : "Password must be at least 6 characters";
             },
-            onSaved: (value) {
-              user.password = value!.trim();
+            onChanged: (value) {
+              user.password = value.trim();
             },
           ),
         )

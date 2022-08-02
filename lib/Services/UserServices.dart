@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:project1/Models/user.dart';
+import 'package:project1/Models/User.dart';
 
 class UserService {
   /* Future<List<User>> getAllProducts() async {
