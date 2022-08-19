@@ -18,7 +18,7 @@ class LoginRiverpod extends ChangeNotifier {
     service
         .verifyUser(email: email.text, password: password.text)
         .then((value) {
-      if (value != null && value.message != "Login failed") {
+      if (value != null && value.message == "Login successful") {
         //box.write("email", value.email);
         log("Kaydedilen email => ${box.read("status")}");
         Navigator.push(

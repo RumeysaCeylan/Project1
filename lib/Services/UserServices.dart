@@ -12,27 +12,15 @@ class UserService {
   Future<UserModel> verifyUser(
       {required String email, required String password}) async {
     Map<String, dynamic> json = {"email": email, "password": password};
-    final response = await http.post(
-      Uri.parse(base),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'email': email,
-        'password': password,
-      }),
-    );
+
+    var response = await http.post(base, body: json);
     if (response.statusCode == 200) {
-      // If the server did return a 201 CREATED response,
-      // then parse the JSON.
       log("Gelen Response => ${response.body}");
       print(jsonDecode(response.body));
-
       return UserModel.fromJson(jsonDecode(response.body));
     } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
-      throw Exception('Failed to create login. ${response.statusCode}');
+      throw ("Bir sorun oluştu ${response.statusCode}");
     }
   }
 }
+//rumeysaceylan@gmail.com
