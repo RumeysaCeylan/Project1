@@ -26,6 +26,8 @@ class UserService {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
       log("Gelen Response => ${response.body}");
+      print(jsonDecode(response.body));
+
       return UserModel.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 201 CREATED response,

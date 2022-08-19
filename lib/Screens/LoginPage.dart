@@ -58,7 +58,7 @@ class _MyAppState extends ConsumerState<MyApp> {
                         buildPasswordLogin(),
                         buildForgotLogin(context),
                         buildRemembermeBtn(),
-                        buildLoginBtn(),
+                        buildLoginBtn(context),
                         buildSignUpBtn(context),
                       ],
                     ),
@@ -103,7 +103,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     );
   }
 
-  Widget buildLoginBtn() {
+  Widget buildLoginBtn(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: 25.0,
@@ -111,7 +111,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 10.0,
-        onPressed: () => ref.read(loginRiverpod).fetch(),
+        onPressed: () => ref.read(loginRiverpod).fetch(context),
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),

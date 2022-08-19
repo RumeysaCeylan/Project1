@@ -13,19 +13,19 @@ class LoginRiverpod extends ChangeNotifier {
   TextEditingController password = TextEditingController();
   final box = GetStorage();
 
-  void fetch() {
+  void fetch(BuildContext context) {
     loadingPopup();
     service
         .verifyUser(email: email.text, password: password.text)
         .then((value) {
-      if (value != null && value.email != null && value.password != null) {
-        box.write("email", value.email);
-        log("Kaydedilen email => ${box.read("email")}");
-        Grock.back();
-        Grock.toRemove(WelcomeState());
+      if (value != null && value.message != "Login failed") {
+        //box.write("email", value.email);
+        log("Kaydedilen email => ${box.read("status")}");
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => WelcomeState()));
       } else {
         Grock.back();
-        Grock.snackBar(title: "Hata", description: value.email);
+        Grock.snackBar(title: "Hata", description: "hatalı giriş");
       }
     });
   }
