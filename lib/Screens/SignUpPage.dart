@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:project1/Models/User.dart';
 
+import 'Welcome.dart';
+
 class SignUpState extends StatefulWidget {
   @override
   State<SignUpState> createState() => _SignUpState();
@@ -80,7 +82,10 @@ class _SignUpState extends State<SignUpState> {
       child: RaisedButton(
         elevation: 10.0,
         onPressed: () {
-          saveUser();
+          /*Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => WelcomeState()),
+          );*/
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(

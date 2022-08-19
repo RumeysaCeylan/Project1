@@ -2,12 +2,6 @@ import 'dart:convert';
 
 import 'package:project1/Models/User.dart';
 
-/*List<User> userModelFromJson(String str) =>
-    List<User>.from(json.decode(str).map((x) => userModelFromJson(x)));
-
-String productModelToJson(List<User> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));*/
-
 class User {
   int id = 0;
   String firstName = "";
@@ -61,19 +55,4 @@ class User {
   void set setPassword(String password) {
     this.password = password;
   }
-
-  /* factory User.fromJson(Map<String, dynamic> json) => User(
-      id: json["id"],
-      firstName: json["fname"],
-      lastName: json["lname"],
-      email: json["email"],
-      password: json["fname"]);
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "fname": firstName,
-        "lname": lastName,
-        "email": email,
-        "password": password
-      };*/
 }

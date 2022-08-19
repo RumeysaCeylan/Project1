@@ -1,21 +1,24 @@
+// ignore_for_file: unnecessary_new
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:project1/Models/User.dart';
-import 'package:project1/Screens/SignUpPage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MyApp extends StatefulWidget {
+import 'package:project1/Screens/SignUpPage.dart';
+import 'package:project1/Screens/Welcome.dart';
+
+import '../riverpod/riverpodManager.dart';
+
+class MyApp extends ConsumerStatefulWidget {
   @override
-  State<MyApp> createState() => _MyAppState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends ConsumerState<MyApp> {
   String mesaj = "LOGIN";
   bool remembermeBtn = false;
   var formKey = GlobalKey<FormState>();
 
-  User user = User.withoutId();
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -108,9 +111,7 @@ class _MyAppState extends State<MyApp> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 10.0,
-        onPressed: () async {
-          save();
-        },
+        onPressed: () => ref.read(loginRiverpod).fetch(),
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
@@ -128,17 +129,6 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
-  }
-
-  void save() {
-    print("deneme");
-    if (user.firstName.isEmpty) {
-      print("dsfmldfl");
-    }
-    print(user.firstName);
-    print(user.lastName);
-    print(user.email);
-    print(user.password);
   }
 
   Widget buildRemembermeBtn() {
@@ -219,7 +209,8 @@ class _MyAppState extends State<MyApp> {
             color: Colors.white54,
           ),
           height: 50.0,
-          child: TextFormField(
+          child: TextField(
+            controller: ref.read(loginRiverpod).email,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
@@ -227,7 +218,7 @@ class _MyAppState extends State<MyApp> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.email,
-                color: Colors.white,
+                color: Colors.orangeAccent,
               ),
               hintText: "Email adresinizi giriniz",
               hintStyle: TextStyle(
@@ -235,15 +226,12 @@ class _MyAppState extends State<MyApp> {
                   fontFamily: 'OpenSans',
                   fontWeight: FontWeight.w100),
             ),
-            validator: (value) {
+            /*validator: (value) {
               return value!.contains(
                       RegExp(r'[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}'))
                   ? null
                   : "Invalid E-mail";
-            },
-            onChanged: (value) {
-              user.email = value.trim();
-            },
+            },*/
           ),
         )
       ],
@@ -269,7 +257,8 @@ class _MyAppState extends State<MyApp> {
             color: Colors.white54,
           ),
           height: 50.0,
-          child: TextFormField(
+          child: TextField(
+            controller: ref.read(loginRiverpod).password,
             obscureText: true, //****
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
@@ -277,7 +266,7 @@ class _MyAppState extends State<MyApp> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.lock,
-                color: Colors.white,
+                color: Colors.orangeAccent,
               ),
               hintText: "Şifrenizi giriniz",
               hintStyle: TextStyle(
@@ -285,14 +274,11 @@ class _MyAppState extends State<MyApp> {
                   fontFamily: 'OpenSans',
                   fontWeight: FontWeight.w100),
             ),
-            validator: (value) {
+            /*validator: (value) {
               return value!.length > 5
                   ? null
                   : "Password must be at least 6 characters";
-            },
-            onChanged: (value) {
-              user.password = value.trim();
-            },
+            },*/
           ),
         )
       ],
